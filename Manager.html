@@ -9,51 +9,45 @@
     /* Embedded CSS */
     body {
       font-family: 'Lato', sans-serif;
-      background-color: #1e1e2f; /* Dark blue background */
+      background-color: #1e1e2f;
       margin: 0;
       padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      color: #fff; /* White text */
-      overflow: hidden; /* Prevent scrolling when sidebar is open */
+      color: #fff;
+      overflow: hidden;
     }
 
     .container {
-      background-color: #2a2a40; /* Slightly lighter blue for the container */
+      background-color: #2a2a40;
       padding: 25px;
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      width: 800px; /* Wider container */
+      width: 800px;
       text-align: center;
-      animation: fadeIn 1s ease-in-out; /* Fade-in animation */
-      max-height: 90vh; /* Limit container height */
-      overflow-y: auto; /* Enable vertical scrolling */
-      position: relative; /* For hamburger menu positioning */
+      animation: fadeIn 1s ease-in-out;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
       font-size: 28px;
       margin-bottom: 10px;
-      color: #00d1b2; /* Teal color for the heading */
+      color: #00d1b2;
     }
 
     h2 {
       font-size: 24px;
       margin-bottom: 20px;
-      color: #fff; /* White color for the welcome message */
+      color: #fff;
     }
 
     .user-info {
@@ -65,7 +59,7 @@
       display: block;
       margin-bottom: 8px;
       font-weight: bold;
-      color: #00d1b2; /* Teal color for labels */
+      color: #00d1b2;
     }
 
     .user-info div {
@@ -80,7 +74,7 @@
     }
 
     .stat-card {
-      background-color: #3a3a4f; /* Dark card background */
+      background-color: #3a3a4f;
       padding: 20px;
       border-radius: 10px;
       width: 27%;
@@ -89,19 +83,19 @@
     }
 
     .stat-card:hover {
-      transform: translateY(-10px); /* Lift effect on hover */
+      transform: translateY(-10px);
     }
 
     .stat-card h3 {
       font-size: 20px;
       margin-bottom: 10px;
-      color: #00d1b2; /* Teal color for the stat title */
+      color: #00d1b2;
     }
 
     .stat-card p {
       font-size: 24px;
       font-weight: bold;
-      color: #fff; /* White color for the stat value */
+      color: #fff;
     }
 
     .actions {
@@ -114,7 +108,7 @@
       flex: 1;
       margin: 0 10px;
       padding: 15px;
-      background-color: #00d1b2; /* Teal button */
+      background-color: #00d1b2;
       color: #fff;
       border: none;
       border-radius: 30px;
@@ -125,12 +119,12 @@
     }
 
     .actions button:hover {
-      background-color: #00b89c; /* Darker teal on hover */
-      transform: scale(1.05); /* Slight zoom effect on hover */
+      background-color: #00b89c;
+      transform: scale(1.05);
     }
 
     .actions button:active {
-      transform: scale(0.95); /* Slight shrink effect on click */
+      transform: scale(0.95);
     }
 
     .report, .employee-list {
@@ -139,7 +133,7 @@
     }
 
     .report h3, .employee-list h3 {
-      color: #00d1b2; /* Teal color for subheadings */
+      color: #00d1b2;
     }
 
     .report ul, .employee-list ul {
@@ -148,13 +142,12 @@
     }
 
     .report li, .employee-list li {
-      background-color: #3a3a4f; /* Dark list item background */
+      background-color: #3a3a4f;
       padding: 10px;
       margin-bottom: 10px;
       border-radius: 5px;
     }
 
-    /* Hamburger Menu */
     .hamburger-menu {
       position: absolute;
       top: 20px;
@@ -162,30 +155,29 @@
       cursor: pointer;
       font-size: 24px;
       color: #00d1b2;
-      z-index: 1000; /* Ensure it's above other elements */
+      z-index: 1000;
       transition: transform 0.3s ease-in-out;
     }
 
     .hamburger-menu.open {
-      transform: rotate(90deg); /* Transform to "X" */
+      transform: rotate(90deg);
     }
 
-    /* Sidebar */
     .sidebar {
       position: fixed;
       top: 100px;
-      right: -300px; /* Hide sidebar by default */
+      right: -300px;
       width: 250px;
       height: 100%;
       background-color: #2a2a40;
       box-shadow: -4px 0 15px rgba(0, 0, 0, 0.3);
       transition: right 0.3s ease-in-out;
       padding: 20px;
-      z-index: 999; /* Ensure it's above the container */
+      z-index: 999;
     }
 
     .sidebar.open {
-      right: 0; /* Show sidebar */
+      right: 0;
     }
 
     .sidebar button {
@@ -199,7 +191,7 @@
       font-size: 16px;
       font-weight: bold;
       transition: background-color 0.3s ease, transform 0.2s ease;
-      margin-top: 20px; /* Button at the top */
+      margin-top: 20px;
     }
 
     .sidebar button:hover {
@@ -207,7 +199,6 @@
       transform: scale(1.05);
     }
 
-    /* Overlay for closing sidebar */
     .overlay {
       display: none;
       position: fixed;
@@ -216,14 +207,13 @@
       width: 100%;
       height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
-      z-index: 998; /* Below sidebar */
+      z-index: 998;
     }
 
     .overlay.active {
       display: block;
     }
 
-    /* Popup Modal */
     .modal {
       display: none;
       position: fixed;
@@ -234,7 +224,7 @@
       background-color: rgba(0, 0, 0, 0.5);
       justify-content: center;
       align-items: center;
-      z-index: 1001; /* Above everything */
+      z-index: 1001;
     }
 
     .modal-content {
@@ -247,14 +237,8 @@
     }
 
     @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .modal-content h3 {
@@ -284,93 +268,112 @@
     .modal-content button:hover {
       background-color: #00b89c;
     }
+
+    #credentialMessage {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .data-placeholder {
+      color: #aaa;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Hamburger Menu -->
     <div class="hamburger-menu" onclick="toggleSidebar()">&#9776;</div>
 
     <h1>Time International Bank</h1>
-    <h2>Welcome, Manager!</h2>
+    <h2>Welcome, {% if session.get('job_title') %}{{ session.job_title }}{% else %}Manager{% endif %}!</h2>
 
-    <!-- Manager Information -->
     <div class="user-info">
-      <label for="name">Name:</label>
-      <div>Test Manager</div> <!-- Placeholder for manager name -->
+      <label>Name:</label>
+      <div>{% if session.get('name') %}{{ session.name }}{% else %}<span class="data-placeholder">Not Available</span>{% endif %}</div>
 
-      <label for="empId">Employee ID:</label>
-      <div>MGR123</div> <!-- Placeholder for manager ID -->
+      <label>Employee ID:</label>
+      <div>{% if session.get('emp_id') %}{{ session.emp_id }}{% else %}<span class="data-placeholder">Not Available</span>{% endif %}</div>
 
-      <label for="role">Role:</label>
-      <div>Manager</div> <!-- Placeholder for manager role -->
+      <label>Role:</label>
+      <div>{% if session.get('job_title') %}{{ session.job_title }}{% else %}<span class="data-placeholder">Not Available</span>{% endif %}</div>
     </div>
 
-    <!-- Quick Stats -->
     <div class="stats">
       <div class="stat-card">
         <h3>Total Employees</h3>
-        <p>50</p> <!-- Placeholder for total employees -->
+        <p>{% if total_employees is defined %}{{ "{:,}".format(total_employees) }}{% else %}<span class="data-placeholder">Loading...</span>{% endif %}</p>
       </div>
       <div class="stat-card">
         <h3>Total Accounts</h3>
-        <p>1,200</p> <!-- Placeholder for total accounts -->
+        <p>{% if total_accounts is defined %}{{ "{:,}".format(total_accounts) }}{% else %}<span class="data-placeholder">Loading...</span>{% endif %}</p>
       </div>
       <div class="stat-card">
         <h3>Total Balance</h3>
-        <p>10,000,000 ETB</p> <!-- Placeholder for total balance -->
+        <p>{% if total_balance is defined %}{{ "{:,.2f} ETB".format(total_balance) }}{% else %}<span class="data-placeholder">Loading...</span>{% endif %}</p>
       </div>
     </div>
 
-    <!-- Actions -->
     <div class="actions">
       <button id="viewReports">View Reports</button>
       <button id="manageEmployees">Manage Employees</button>
     </div>
 
-    <!-- Reports Section -->
     <div class="report" id="reportSection" style="display: none;">
       <h3>Hiring and Firing Reports</h3>
       <ul>
-        <li>John Doe - Hired on 2023-10-01</li>
-        <li>Jane Smith - Fired on 2023-10-05</li>
-        <li>Alice Johnson - Hired on 2023-10-10</li>
+        {% if recent_actions and recent_actions|length > 0 %}
+          {% for action in recent_actions %}
+          <li>
+            {{ action.emp_name|default('Unknown') }} - 
+            {{ action.action_type|default('Action') }} on 
+            {{ action.action_date.strftime('%Y-%m-%d') if action.action_date else 'Unknown date' }}
+            {% if action.details %}({{ action.details }}){% endif %}
+          </li>
+          {% endfor %}
+        {% else %}
+          <li class="data-placeholder">No recent actions found</li>
+        {% endif %}
       </ul>
     </div>
 
-    <!-- Employee List Section -->
     <div class="employee-list" id="employeeListSection" style="display: none;">
       <h3>Employee List</h3>
       <ul>
-        <li>John Doe - Accountant - 15,000 ETB</li>
-        <li>Jane Smith - Manager - 30,000 ETB</li>
-        <li>Alice Johnson - Security - 5,000 ETB</li>
+        {% if employee_list and employee_list|length > 0 %}
+          {% for employee in employee_list %}
+          <li>
+            {{ employee.emp_name|default('Unknown') }} - 
+            {{ employee.job_title|default('No title') }} - 
+            {{ "{:,.2f} ETB".format(employee.salary) if employee.salary else '0.00 ETB' }} -
+            {{ employee.dep_name|default('No department') }}
+          </li>
+          {% endfor %}
+        {% else %}
+          <li class="data-placeholder">No employees found</li>
+        {% endif %}
       </ul>
     </div>
   </div>
 
-  <!-- Overlay -->
   <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <button onclick="openModal()">Change Username & Password</button>
   </div>
 
-  <!-- Popup Modal -->
   <div class="modal" id="modal">
     <div class="modal-content">
       <h3>Change Username & Password</h3>
-      <input type="text" placeholder="Current Username">
-      <input type="text" placeholder="New Username">
-      <input type="password" placeholder="Current Password">
-      <input type="password" placeholder="New Password">
-      <button onclick="closeModal()">Save Changes</button>
+      <input type="text" id="currentUsername" placeholder="Current Username" value="{{ session.get('username', '') }}">
+      <input type="text" id="newUsername" placeholder="New Username">
+      <input type="password" id="currentPassword" placeholder="Current Password">
+      <input type="password" id="newPassword" placeholder="New Password">
+      <button onclick="updateCredentials()">Save Changes</button>
+      <p id="credentialMessage"></p>
     </div>
   </div>
 
   <script>
-    // JavaScript for Sidebar, Overlay, and Modal
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
       const overlay = document.getElementById('overlay');
@@ -383,28 +386,77 @@
 
     function openModal() {
       document.getElementById('modal').style.display = 'flex';
+      document.getElementById('credentialMessage').textContent = '';
     }
 
     function closeModal() {
       document.getElementById('modal').style.display = 'none';
     }
 
-    // Existing JavaScript for View Reports and Manage Employees buttons
-    const viewReportsButton = document.getElementById('viewReports');
-    const manageEmployeesButton = document.getElementById('manageEmployees');
-    const reportSection = document.getElementById('reportSection');
-    const employeeListSection = document.getElementById('employeeListSection');
+    function updateCredentials() {
+      const currentUsername = document.getElementById('currentUsername').value;
+      const newUsername = document.getElementById('newUsername').value;
+      const currentPassword = document.getElementById('currentPassword').value;
+      const newPassword = document.getElementById('newPassword').value;
+      const messageElement = document.getElementById('credentialMessage');
 
-    // Show Reports Section
-    viewReportsButton.addEventListener('click', function() {
-      reportSection.style.display = 'block';
-      employeeListSection.style.display = 'none';
+      if (!currentUsername || !newUsername || !currentPassword || !newPassword) {
+        messageElement.textContent = 'All fields are required';
+        messageElement.style.color = 'red';
+        return;
+      }
+
+      fetch('/update-credentials', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          current_username: currentUsername,
+          new_username: newUsername,
+          current_password: currentPassword,
+          new_password: newPassword
+        })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.success) {
+          messageElement.textContent = 'Credentials updated successfully!';
+          messageElement.style.color = 'green';
+          setTimeout(() => {
+            closeModal();
+            window.location.reload();
+          }, 1500);
+        } else {
+          messageElement.textContent = data.error || 'Failed to update credentials';
+          messageElement.style.color = 'red';
+        }
+      })
+      .catch(error => {
+        messageElement.textContent = 'Error updating credentials: ' + error.message;
+        messageElement.style.color = 'red';
+        console.error('Error:', error);
+      });
+    }
+
+    document.getElementById('viewReports').addEventListener('click', function() {
+      document.getElementById('reportSection').style.display = 'block';
+      document.getElementById('employeeListSection').style.display = 'none';
     });
 
-    // Show Employee List Section
-    manageEmployeesButton.addEventListener('click', function() {
-      employeeListSection.style.display = 'block';
-      reportSection.style.display = 'none';
+    document.getElementById('manageEmployees').addEventListener('click', function() {
+      document.getElementById('employeeListSection').style.display = 'block';
+      document.getElementById('reportSection').style.display = 'none';
+    });
+
+    // Initialize the page with reports shown by default
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('reportSection').style.display = 'block';
     });
   </script>
 </body>
