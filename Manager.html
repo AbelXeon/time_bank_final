@@ -228,13 +228,15 @@
     }
 
     .modal-content {
-      background-color: #2a2a40;
-      padding: 20px;
-      border-radius: 10px;
-      width: 300px;
-      text-align: center;
-      animation: slideIn 0.3s ease-in-out;
-    }
+  background-color: #2a2a40;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+  animation: slideIn 0.3s ease-in-out;
+  position: relative; /* Add this line */
+  padding-top: 40px; /* Add some top padding to make room for the close button */
+}
 
     @keyframes slideIn {
       from { opacity: 0; transform: translateY(-20px); }
@@ -278,6 +280,42 @@
       color: #aaa;
       font-style: italic;
     }
+
+
+    .close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.close-modal:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+
+.sidebar button.logout-btn {
+  background-color: #ff4d4d;
+  margin-top: 20px;
+}
+.sidebar button.logout-btn:hover {
+  background-color: #cc0000;
+}
+
+
+
   </style>
 </head>
 <body>
@@ -359,11 +397,14 @@
 
   <div class="sidebar" id="sidebar">
     <button onclick="openModal()">Change Username & Password</button>
+    <button onclick="logout()" class="logout-btn">Logout</button>
   </div>
 
   <div class="modal" id="modal">
     <div class="modal-content">
       <h3>Change Username & Password</h3>
+      <button class="close-modal" onclick="closeModal()">×</button>
+
       <input type="text" id="currentUsername" placeholder="Current Username" value="{{ session.get('username', '') }}">
       <input type="text" id="newUsername" placeholder="New Username">
       <input type="password" id="currentPassword" placeholder="Current Password">
@@ -458,6 +499,32 @@
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('reportSection').style.display = 'block';
     });
+
+    async function logout() {
+  try {
+    const response = await fetch('http://localhost:8000/api/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include'
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      // Redirect to login page
+      window.location.href = '/login.html';
+    } else {
+      throw new Error(result.error || 'Logout failed');
+    }
+  } catch (error) {
+    console.error('Logout error:', error);
+    alert('Failed to logout. Please try again.');
+  }
+}
+
+
   </script>
 </body>
 </html>
