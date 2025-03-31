@@ -9,7 +9,7 @@ city varchar(50),
 address varchar(50)
 );
 
-INSERT INTO branch (branch_id, branch_name, city, address)
+INSERT INTO branch(branch_id, branch_name, city, address)
 VALUES
     (1, 'Main Branch', 'Addis Ababa', '22 Bole Road'),
     (2, 'North Branch', 'Mekele', '15 Hawzen Street'),
@@ -48,6 +48,7 @@ emp_id int primary key not null,
 emp_name varchar(50),
 gender enum('M','F'),
 dep_id int,
+branch_id int,
 job_title varchar(50),
 salary float,
 dbo date,
@@ -57,7 +58,8 @@ address varchar(50),
 email varchar(50),
 username VARCHAR(100),
 passwords VARCHAR(255) UNIQUE NOT NULL,
-foreign key (dep_id) references department(dep_id)
+foreign key (dep_id) references department(dep_id),
+foreign key (branch_id) references branch(branch_id)
 );
 
 
@@ -84,17 +86,6 @@ CREATE TABLE transactions (
     FOREIGN KEY (account_no) REFERENCES accounts (account_no) 
 );
 
-
-CREATE TABLE notifications (
-    notification_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    cust_id INT,
-    emp_id INT,
-    message TEXT NOT NULL,
-    notification_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('Unread', 'Read') DEFAULT 'Unread',
-    FOREIGN KEY (cust_id) REFERENCES customer (cust_id),
-    FOREIGN KEY (emp_id) REFERENCES employee (emp_id)
-);
 
 CREATE TABLE employee_branch (
     emp_id INT NOT NULL,
@@ -184,7 +175,6 @@ AFTER UPDATE ON employee
 FOR EACH ROW
 BEGIN
     IF OLD.job_title IS NULL AND NEW.job_title IS NOT NULL THEN
-        -- Employee is hired
         INSERT INTO employee_actions (
             emp_id, action_type, details
         ) VALUES (
@@ -200,17 +190,16 @@ BEGIN
 END$$
 DELIMITER ;
 
-CREATE OR REPLACE VIEW bank_metrics AS
+CREATE VIEW bank_metrics AS
 SELECT
     (SELECT COUNT(*) FROM employee) AS total_employees,
     (SELECT SUM(balance) FROM accounts) AS total_bank_balance,
-    (SELECT COUNT(*) FROM employee WHERE dep_id = 1) AS hr_employees,
-    (SELECT COUNT(*) FROM employee WHERE dep_id = 2) AS finance_employees,
-    (SELECT COUNT(*) FROM employee WHERE dep_id = 4) AS accountant_employees,
-    (SELECT COUNT(*) FROM employee WHERE dep_id = 5) AS security_employees,
-    (SELECT COUNT(*) FROM employee WHERE dep_id = 6) AS cleaner_employees,
-    (SELECT COUNT(*) FROM employee WHERE dep_id = 7) AS manager_employees;
-
+    (SELECT COUNT(*) FROM employee WHERE dep_id = 107) AS hr_employees,
+    (SELECT COUNT(*) FROM employee WHERE dep_id = 103) AS finance_employees,
+    (SELECT COUNT(*) FROM employee WHERE dep_id = 101) AS accountant_employees,
+    (SELECT COUNT(*) FROM employee WHERE dep_id = 104) AS security_employees,
+    (SELECT COUNT(*) FROM employee WHERE dep_id = 105) AS cleaner_employees,
+    (SELECT COUNT(*) FROM employee WHERE dep_id = 102) AS manager_employees;
 
 DELIMITER $$
 
@@ -226,17 +215,14 @@ BEGIN
     DECLARE manager_employees INT;
 
     SELECT COUNT(*) INTO total_employees FROM employee;
-
  
     SELECT SUM(balance) INTO total_bank_balance FROM accounts;
-
-    SELECT COUNT(*) INTO hr_employees FROM employee WHERE dep_id = 1;
-    SELECT COUNT(*) INTO finance_employees FROM employee WHERE dep_id = 2;
-    SELECT COUNT(*) INTO accountant_employees FROM employee WHERE dep_id = 4;
-    SELECT COUNT(*) INTO security_employees FROM employee WHERE dep_id = 5;
-    SELECT COUNT(*) INTO cleaner_employees FROM employee WHERE dep_id = 6;
-    SELECT COUNT(*) INTO manager_employees FROM employee WHERE dep_id = 7;
-
+    SELECT COUNT(*) INTO hr_employees FROM employee WHERE dep_id = 107;
+    SELECT COUNT(*) INTO finance_employees FROM employee WHERE dep_id = 103;
+    SELECT COUNT(*) INTO accountant_employees FROM employee WHERE dep_id = 101;
+    SELECT COUNT(*) INTO security_employees FROM employee WHERE dep_id = 104;
+    SELECT COUNT(*) INTO cleaner_employees FROM employee WHERE dep_id = 105;
+    SELECT COUNT(*) INTO manager_employees FROM employee WHERE dep_id = 102;
 
     SELECT
         total_employees AS total_employees,
@@ -250,7 +236,6 @@ BEGIN
 END$$
 
 DELIMITER ;
-
 
 
 CREATE INDEX idx_account_no ON transactions (account_no);
