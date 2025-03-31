@@ -78,11 +78,11 @@ INSERT INTO employee (
     username, 
     passwords
 ) VALUES (
-    999,  -- Assuming this emp_id is available
+    999, 
     'Test HR Employee', 
     'M', 
-    107,  -- HR department ID
-    1,    -- Main Branch
+    107, 
+    1,   
     'HR Specialist', 
     15000.00, 
     '1990-01-01', 
@@ -91,7 +91,7 @@ INSERT INTO employee (
     '22 Bole Road', 
     'testhr@timebank.com', 
     'testhr', 
-    'securepassword123'  -- In a real system, this should be hashed
+    'securepassword123'  
 );
 
 
