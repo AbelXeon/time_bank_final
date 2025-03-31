@@ -195,6 +195,18 @@
       width: 300px;
       text-align: center;
       animation: slideIn 0.3s ease-in-out;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
     }
 
     @keyframes slideIn {
@@ -506,6 +518,16 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #00b89c;
     }
+
+    /* Logout button specific styles */
+    .sidebar button.logout-btn {
+      background-color: #ff4d4d;
+      margin-top: 20px;
+    }
+
+    .sidebar button.logout-btn:hover {
+      background-color: #cc0000;
+    }
   </style>
 </head>
 <body>
@@ -555,11 +577,13 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
       <button onclick="openModal()">Change Username & Password</button>
+      <button onclick="logout()" class="logout-btn">Logout</button>
     </div>
 
     <!-- Popup Modal -->
     <div class="modal" id="modal">
       <div class="modal-content">
+        <button class="close-modal" onclick="closeModal()">×</button>
         <h3>Change Credentials</h3>
         <input type="text" id="currentUsername" placeholder="Current Username">
         <input type="text" id="newUsername" placeholder="New Username">
@@ -591,8 +615,11 @@
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
 
-            <label for="salary">Salary:</label>
-            <input type="number" id="salary" name="salary" readonly>
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
           </div>
 
           <!-- Right Side -->
@@ -608,6 +635,16 @@
               <option value="HR">HR</option>
             </select>
 
+            <label for="branch">Branch:</label>
+            <select id="branch" name="branch" required>
+              <option value="">Select Branch</option>
+              <option value="1">Main Branch (Addis Ababa)</option>
+              <option value="2">North Branch (Mekele)</option>
+              <option value="3">East Branch (Dire Dawa)</option>
+              <option value="4">South Branch (Hawassa)</option>
+              <option value="5">West Branch (Bahir Dar)</option>
+            </select>
+
             <label for="dob">Date of Birth:</label>
             <input type="date" id="dob" name="dob" required>
 
@@ -617,6 +654,9 @@
               <option value="M">Male</option>
               <option value="F">Female</option>
             </select>
+
+            <label for="salary">Salary:</label>
+            <input type="number" id="salary" name="salary" readonly>
           </div>
         </div>
 
@@ -701,84 +741,83 @@
     function closeModal() {
       document.getElementById('modal').style.display = 'none';
     }
-// Replace these functions in your existing HTML file:
 
-async function loadHRManagerData() {
-    try {
-        const response = await fetch('http://localhost:8000/api/current-user');
-        const result = await response.json();
-        
-        if (!result.success) {
-            throw new Error(result.error || 'Failed to load user data');
+    async function loadHRManagerData() {
+        try {
+            const response = await fetch('http://localhost:8000/api/current-user');
+            const result = await response.json();
+            
+            if (!result.success) {
+                throw new Error(result.error || 'Failed to load user data');
+            }
+            
+            document.getElementById('userName').textContent = result.user.name;
+            document.getElementById('userEmpId').textContent = result.user.emp_id;
+            document.getElementById('userRole').textContent = result.user.role;
+            document.getElementById('hrName').textContent = result.user.name;
+            
+            sessionStorage.setItem('hrName', result.user.name);
+            sessionStorage.setItem('hrEmpId', result.user.emp_id);
+            sessionStorage.setItem('hrRole', result.user.role);
+        } catch (error) {
+            console.error('Error loading HR data:', error);
+            document.getElementById('userName').textContent = sessionStorage.getItem('hrName') || 'HR Manager';
+            document.getElementById('userEmpId').textContent = sessionStorage.getItem('hrEmpId') || 'HR001';
+            document.getElementById('userRole').textContent = sessionStorage.getItem('hrRole') || 'HR Manager';
+            document.getElementById('hrName').textContent = sessionStorage.getItem('hrName') || 'HR Manager';
         }
-        
-        document.getElementById('userName').textContent = result.user.name;
-        document.getElementById('userEmpId').textContent = result.user.emp_id;
-        document.getElementById('userRole').textContent = result.user.role;
-        document.getElementById('hrName').textContent = result.user.name;
-        
-        sessionStorage.setItem('hrName', result.user.name);
-        sessionStorage.setItem('hrEmpId', result.user.emp_id);
-        sessionStorage.setItem('hrRole', result.user.role);
-    } catch (error) {
-        console.error('Error loading HR data:', error);
-        document.getElementById('userName').textContent = sessionStorage.getItem('hrName') || 'HR Manager';
-        document.getElementById('userEmpId').textContent = sessionStorage.getItem('hrEmpId') || 'HR001';
-        document.getElementById('userRole').textContent = sessionStorage.getItem('hrRole') || 'HR Manager';
-        document.getElementById('hrName').textContent = sessionStorage.getItem('hrName') || 'HR Manager';
     }
-}
 
-async function loadDepartmentStats() {
-    try {
-        const response = await fetch('http://localhost:8000/api/department-stats');
-        const result = await response.json();
-        
-        if (!result.success) {
-            throw new Error(result.error || 'Failed to load department stats');
+    async function loadDepartmentStats() {
+        try {
+            const response = await fetch('http://localhost:8000/api/department-stats');
+            const result = await response.json();
+            
+            if (!result.success) {
+                throw new Error(result.error || 'Failed to load department stats');
+            }
+            
+            let statsHTML = '';
+            
+            result.stats.forEach(stat => {
+                statsHTML += `
+                    <div class="stat-item">
+                        <span class="stat-label">${stat.dep_name}:</span>
+                        <span class="stat-value">${stat.employee_count}</span>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('statsContent').innerHTML = statsHTML;
+        } catch (error) {
+            console.error('Error loading department stats:', error);
+            document.getElementById('statsContent').textContent = 'Error loading statistics';
         }
-        
-        let statsHTML = '';
-        
-        result.stats.forEach(stat => {
-            statsHTML += `
-                <div class="stat-item">
-                    <span class="stat-label">${stat.dep_name}:</span>
-                    <span class="stat-value">${stat.employee_count}</span>
+    }
+
+    async function loadRecentActions() {
+        try {
+            const response = await fetch('http://localhost:8000/api/recent-actions');
+            const result = await response.json();
+            
+            if (!result.success) {
+                throw new Error(result.error || 'Failed to load recent actions');
+            }
+            
+            let actionsHTML = result.actions.map(action => `
+                <div class="action-item">
+                    <div class="action-type">${action.action_type}: ${action.emp_id}</div>
+                    <div>${action.details}</div>
+                    <div class="action-date">${new Date(action.action_date).toLocaleString()}</div>
                 </div>
-            `;
-        });
-        
-        document.getElementById('statsContent').innerHTML = statsHTML;
-    } catch (error) {
-        console.error('Error loading department stats:', error);
-        document.getElementById('statsContent').textContent = 'Error loading statistics';
-    }
-}
-
-async function loadRecentActions() {
-    try {
-        const response = await fetch('http://localhost:8000/api/recent-actions');
-        const result = await response.json();
-        
-        if (!result.success) {
-            throw new Error(result.error || 'Failed to load recent actions');
+            `).join('');
+            
+            document.getElementById('actionsContent').innerHTML = actionsHTML;
+        } catch (error) {
+            console.error('Error loading recent actions:', error);
+            document.getElementById('actionsContent').textContent = 'Error loading recent actions';
         }
-        
-        let actionsHTML = result.actions.map(action => `
-            <div class="action-item">
-                <div class="action-type">${action.action_type}: ${action.emp_id}</div>
-                <div>${action.details}</div>
-                <div class="action-date">${new Date(action.action_date).toLocaleString()}</div>
-            </div>
-        `).join('');
-        
-        document.getElementById('actionsContent').innerHTML = actionsHTML;
-    } catch (error) {
-        console.error('Error loading recent actions:', error);
-        document.getElementById('actionsContent').textContent = 'Error loading recent actions';
     }
-}
 
     // Hire employee with backend integration
     document.getElementById('hiringForm').addEventListener('submit', async function(event) {
@@ -793,15 +832,19 @@ async function loadRecentActions() {
           name: document.getElementById('hire-name').value.trim(),
           phone: document.getElementById('phone').value.trim(),
           email: document.getElementById('email').value.trim(),
+          city: document.getElementById('city').value.trim(),
+          address: document.getElementById('address').value.trim(),
           salary: document.getElementById('salary').value.trim(),
           role: document.getElementById('role').value.trim(),
+          branch_id: document.getElementById('branch').value.trim(),
           dob: document.getElementById('dob').value.trim(),
           gender: document.getElementById('gender').value.trim()
         };
 
         // Validate required fields
         if (!formData.name || !formData.phone || !formData.email || 
-            !formData.salary || !formData.role || !formData.dob || !formData.gender) {
+            !formData.city || !formData.address || !formData.salary || 
+            !formData.role || !formData.branch_id || !formData.dob || !formData.gender) {
           throw new Error('All fields are required');
         }
 
@@ -964,6 +1007,36 @@ async function loadRecentActions() {
         alert(`Error: ${error.message}`);
     }
 }
+
+    // Logout function
+    async function logout() {
+        try {
+            const response = await fetch('http://localhost:8000/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include'
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Clear session storage
+                sessionStorage.removeItem('hrName');
+                sessionStorage.removeItem('hrEmpId');
+                sessionStorage.removeItem('hrRole');
+                
+                // Redirect to login page
+                window.location.href = '/login.html';
+            } else {
+                throw new Error(result.error || 'Logout failed');
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+            alert('Failed to logout. Please try again.');
+        }
+    }
 
     // Close popup functions
     function closeSuccessPopup() {
